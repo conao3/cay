@@ -82,7 +82,11 @@ def parse(exps: List[str]) -> List[Token]:
     return res
 
 
+def read(arg: str) -> List[Token]:
+    return parse(tokenize(arg))
+
+
 if __name__ == "__main__":
     while True:
         print("cay> ", end="")
-        print(parse(tokenize(input())))
+        print(read(input()))
