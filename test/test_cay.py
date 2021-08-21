@@ -10,6 +10,9 @@ class TestTokenize:
     def test_paren(self):
         assert main.tokenize("(1 + 2) * 3") == ["(", "1", "+", "2", ")", "*", "3"]
 
+    def test_2digits(self):
+        assert main.tokenize("1 + 2 + 42") == ["1", "+", "2", "+", "42"]
+
 
 def test_main():
     assert 1 == 1
