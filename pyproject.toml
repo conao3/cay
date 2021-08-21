@@ -5,6 +5,9 @@ description = "Simple calculator implemented in Python"
 authors = ["Naoya Yamashita <conao3@gmail.com>"]
 license = "MIT"
 
+[tool.poetry.scripts]
+cay = "cay.cli:main"
+
 [tool.poetry.dependencies]
 python = "^3.10"
 pytest = "^6.2.4"
