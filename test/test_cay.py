@@ -38,7 +38,6 @@ class TestParse:
             main.Token(val='fn', type=main.TokenType.function),
             main.Token(val='(', type=main.TokenType.lparen),
             main.Token(val=1, type=main.TokenType.integer),
-            main.Token(val=',', type=main.TokenType.comma),
             main.Token(val=2, type=main.TokenType.integer),
             main.Token(val=')', type=main.TokenType.rparen),
             main.Token(val='+', type=main.TokenType.op),

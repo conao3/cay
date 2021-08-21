@@ -15,7 +15,6 @@ class TokenType(enum.Enum):
     function = enum.auto()
     rparen = enum.auto()
     lparen = enum.auto()
-    comma = enum.auto()
 
 
 @dataclass
@@ -40,6 +39,7 @@ def tokenize(arg: str) -> List[str]:
         re.sub("([0-9]+)", r" \1 ", arg)
         .replace("(", " ( ")
         .replace(")", " ) ")
+        .replace(",", " ")
         .split()
     )
 
@@ -68,8 +68,6 @@ def parse(exps: List[str]) -> List[Token]:
                 res.append(Token(val="(", type=TokenType.lparen))
             case ")":
                 res.append(Token(val=")", type=TokenType.rparen))
-            case ",":
-                res.append(Token(val=",", type=TokenType.comma))
             case "+" | "-" | "*" | "/" | "mod" as elm:
                 res.append(Token(elm, type=TokenType.op))
             case elm if isinstance(elm, int):
