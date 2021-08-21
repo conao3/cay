@@ -3,9 +3,12 @@ from cay import __version__
 
 
 class TestTokenize():
-    def test_main(self):
+    def test_simple(self):
         assert main.tokenize("1 + 2") == ["1", "+", "2"]
         assert main.tokenize("1 + 2 * 3") == ["1", "+", "2", "*", "3"]
+
+    def test_paren(self):
+        assert main.tokenize("(1 + 2) * 3") == ["(", "1", "+", "2", ")", "*", "3"]
 
 
 def test_main():
