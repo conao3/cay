@@ -31,3 +31,6 @@ line-length = 119
 [tool.isort]
 profile = 'black'
 line_length = 119
+
+[tool.pytest.ini_options]
+doctest_optionflags = ['NORMALIZE_WHITESPACE', 'IGNORE_EXCEPTION_DETAIL']
