@@ -5,7 +5,15 @@ from typing import List
 
 
 def tokenize(arg: str) -> List[str]:
-    """Tokenize."""
+    """
+    Tokenize.
+
+    >>> tokenize("1+2+42")
+    ['1', '+', '2', '+', '42']
+
+    >>> tokenize("(1 + 2) * 3")
+    ['(', '1', '+', '2', ')', '*', '3']
+    """
     return re.sub('([0-9]+)', r" \1 ", arg).split()
 
 

@@ -13,7 +13,7 @@ all: build
 build:
 
 test:
-	poetry run pytest
+	poetry run pytest --doctest-modules
 
 clean:
 
