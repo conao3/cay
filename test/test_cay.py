@@ -2,7 +2,7 @@ import cay.main as main
 from cay import __version__
 
 
-class TestTokenize():
+class TestTokenize:
     def test_simple(self):
         assert main.tokenize("1 + 2") == ["1", "+", "2"]
         assert main.tokenize("1 + 2 * 3") == ["1", "+", "2", "*", "3"]
@@ -13,4 +13,4 @@ class TestTokenize():
 
 def test_main():
     assert 1 == 1
-    assert __version__ == '0.1.0'
+    assert __version__ == "0.1.0"
