@@ -33,6 +33,18 @@ class TestParse:
             main.Token(val=3, type=main.TokenType.integer),
         ]
 
+    def test_function(self):
+        assert main.parse(main.tokenize("fn(1, 2)+42")) == [
+            main.Token(val='fn', type=main.TokenType.function),
+            main.Token(val='(', type=main.TokenType.lparen),
+            main.Token(val=1, type=main.TokenType.integer),
+            main.Token(val=',', type=main.TokenType.comma),
+            main.Token(val=2, type=main.TokenType.integer),
+            main.Token(val=')', type=main.TokenType.rparen),
+            main.Token(val='+', type=main.TokenType.op),
+            main.Token(val=42, type=main.TokenType.integer),
+        ]
+
 
 def test_main():
     assert 1 == 1

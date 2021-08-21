@@ -36,7 +36,14 @@ def tokenize(arg: str) -> List[str]:
     >>> tokenize("(1 + 2) * 3")
     ['(', '1', '+', '2', ')', '*', '3']
     """
-    return re.sub('([0-9]+)', r" \1 ", arg).split()
+    return (
+        re.sub("([0-9]+)", r" \1 ", arg)
+        .replace("(", " ( ")
+        .replace(")", " ) ")
+        .split()
+    )
+
+
 def parse(exps: List[str]) -> List[Token]:
     """
     Parse.
@@ -61,6 +68,8 @@ def parse(exps: List[str]) -> List[Token]:
                 res.append(Token(val="(", type=TokenType.lparen))
             case ")":
                 res.append(Token(val=")", type=TokenType.rparen))
+            case ",":
+                res.append(Token(val=",", type=TokenType.comma))
             case elm if isinstance(elm, int):
                 res.append(Token(val=elm, type=TokenType.integer))
             case elm if isinstance(elm, float):
