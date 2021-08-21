@@ -70,12 +70,12 @@ def parse(exps: List[str]) -> List[Token]:
                 res.append(Token(val=")", type=TokenType.rparen))
             case ",":
                 res.append(Token(val=",", type=TokenType.comma))
+            case "+" | "-" | "*" | "/" | "mod" as elm:
+                res.append(Token(elm, type=TokenType.op))
             case elm if isinstance(elm, int):
                 res.append(Token(val=elm, type=TokenType.integer))
             case elm if isinstance(elm, float):
                 res.append(Token(elm, type=TokenType.float))
-            case "+" | "-" | "*" | "/" | "mod" as elm:
-                res.append(Token(elm, type=TokenType.op))
             case elm:
                 res.append(Token(elm, type=TokenType.function))
 
