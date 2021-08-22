@@ -91,7 +91,7 @@ def parse(exps: List[str]) -> List[Token]:
                 res.append(Token(val="(", type=TokenType.lparen))
             case ")":
                 res.append(Token(val=")", type=TokenType.rparen))
-            case "+" | "-" | "*" | "/" | "mod" as elm:
+            case "+" | "-" | "*" | "/" | "^" | "mod" as elm:
                 res.append(Token(elm, type=TokenType.op))
             case elm if isinstance(elm, int):
                 res.append(Token(val=elm, type=TokenType.integer))
@@ -156,6 +156,36 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
     return res
 
 
+def eval(exps: List[Token], ops: List[Op] = global_op) -> Token:
+    """Eval infix notation tokens."""
+
+    exps = convert(exps, ops)
+
+    stack = []
+    for exp in exps:
+        print(stack)
+        match exp:
+            case Token(val=_, type=TokenType.integer) | Token(val=_, type=TokenType.float) as elm:
+                stack.append(elm)
+            case Token(val=o, type=TokenType.op):
+                o_op = ops[o]
+                b = stack.pop().val
+                a = stack.pop().val
+
+                match o_op.cell(a, b):
+                    case elm if isinstance(elm, int):
+                        stack.append(Token(val=elm, type=TokenType.integer))
+                    case elm if isinstance(elm, float):
+                        stack.append(Token(val=elm, type=TokenType.float))
+                    case elm:
+                        raise Exception(f'return value should be int or float: {elm}')
+
+    if len(stack) != 1:
+        raise Exception(f'final stack has more than one tokens: {stack}')
+
+    return stack[0]
+
+
 if __name__ == "__main__":
     while True:
         print("cay> ", end="")
@@ -163,3 +193,4 @@ if __name__ == "__main__":
         print(exps)
         import pprint
         pprint.pprint(convert(exps))
+        print(eval(exps))

@@ -64,11 +64,17 @@ class TestConvert:
             main.Token(val='-', type=main.TokenType.op),
             main.Token(val=2, type=main.TokenType.integer),
             main.Token(val=3, type=main.TokenType.integer),
-            main.Token(val='^', type=main.TokenType.function),
-            main.Token(val='^', type=main.TokenType.function),
+            main.Token(val='^', type=main.TokenType.op),
+            main.Token(val='^', type=main.TokenType.op),
             main.Token(val='/', type=main.TokenType.op),
             main.Token(val='+', type=main.TokenType.op)
         ]
+
+
+class TestEval:
+    def test_eval(self):
+        assert main.eval(main.parse(main.tokenize("3+4"))) == main.Token(val=7, type=main.TokenType.integer)
+        assert main.eval(main.parse(main.tokenize("1+2*3"))) == main.Token(val=7, type=main.TokenType.integer)
 
 
 def test_main():
