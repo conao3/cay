@@ -1,9 +1,10 @@
 """Cay: Simple Calculator implementation."""
 
 import enum
+import operator as op
 import re
 from dataclasses import dataclass
-from typing import List
+from typing import List, Callable
 
 
 class TokenType(enum.Enum):
@@ -17,12 +18,34 @@ class TokenType(enum.Enum):
     lparen = enum.auto()
 
 
+class ConnectivityType(enum.Enum):
+    right = enum.auto()
+    left = enum.auto()
+
+
 @dataclass
 class Token:
     """Cay Token."""
 
     val: str
     type: TokenType
+
+
+@dataclass
+class Op:
+    cell: Callable
+    priority: int
+    connectivity: ConnectivityType
+
+
+global_op = {
+    "^": Op(cell=op.pow, priority=4, connectivity=ConnectivityType.right),
+    "*": Op(cell=op.mul, priority=3, connectivity=ConnectivityType.left),
+    "/": Op(cell=op.truediv, priority=3, connectivity=ConnectivityType.left),
+    "+": Op(cell=op.add, priority=2, connectivity=ConnectivityType.left),
+    "-": Op(cell=op.sub, priority=2, connectivity=ConnectivityType.left),
+    "mod": Op(cell=op.mod, priority=2, connectivity=ConnectivityType.left),
+}
 
 
 def tokenize(arg: str) -> List[str]:
@@ -84,7 +107,59 @@ def read(arg: str) -> List[Token]:
     return parse(tokenize(arg))
 
 
+def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
+    """Convert infix notation to reverse polish notation."""
+
+    res: List[Token] = []
+    stack: List[Token] = []
+
+    itr = iter(exps)
+    while (exp := next(itr, None)):
+        match exp:
+            case Token(val=_, type=TokenType.integer) as elm:
+                res.append(elm)
+            case Token(val=_, type=TokenType.float) as elm:
+                res.append(elm)
+            case Token(val=_, type=TokenType.function) as elm:
+                stack.append(elm)
+            case Token(val=o1, type=TokenType.op) as o1_token:
+                o2_token = stack[-1] if stack else None
+                if o2_token and o2_token.type == TokenType.op:
+                    o2 = o2_token.val
+                    o1_op = ops[o1]
+                    o2_op = ops[o2]
+                    while (o1_op.priority < o2_op.priority
+                           or (o1_op.connectivity == ConnectivityType.left
+                               and o1_op.priority <= o2_op.priority)):
+                        res.append(stack.pop())
+                        if stack:
+                            o2_token = stack[-1]
+                            o2 = o2_token.val
+                            o2_op = ops[o2]
+                        else:
+                            break
+
+                stack.append(o1_token)
+            case Token(val=_, type=TokenType.lparen) as elm:
+                stack.append(elm)
+            case Token(val=_, type=TokenType.rparen) as elm:
+                while stack[-1].type != TokenType.lparen:
+                    res.append(stack.pop())
+
+                stack.pop()     # discard lparen
+            case _:
+                raise Exception("unknown token")
+
+    while stack != []:
+        res.append(stack.pop())
+
+    return res
+
+
 if __name__ == "__main__":
     while True:
         print("cay> ", end="")
-        print(read(input()))
+        exps = read(input())
+        print(exps)
+        import pprint
+        pprint.pprint(convert(exps))
