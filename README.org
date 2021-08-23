@@ -8,6 +8,8 @@
 [[https://twitter.com/conao_3][https://img.shields.io/badge/twitter-@conao__3-blue.svg?logo=twitter&style=flat-square]]
 [[https://conao3-support.slack.com/join/shared_invite/enQtNjUzMDMxODcyMjE1LWUwMjhiNTU3Yjk3ODIwNzAxMTgwOTkxNmJiN2M4OTZkMWY0NjI4ZTg4MTVlNzcwNDY2ZjVjYmRiZmJjZDU4MDE][https://img.shields.io/badge/chat-on_slack-blue.svg?logo=slack&style=flat-square]]
 
+[[https://raw.githubusercontent.com/conao3/files/master/blob/cay/cay.png]]
+
 * Table of Contents
 - [[#description][Description]]
 - [[#install][Install]]
@@ -19,13 +21,62 @@
   - [[#author][Author]]
 
 * Description
-Simple calculator inplemented in Python.
+Simple calculator implemented in Python.
+
+=CAY= comes from CAlculator in pYthon.
+
+* Requirements
+- Python 3.10 (Currently, I use Python 3.10.0.rc1)
 
 * Install
+You can install =cay= via =pip=.
+
+** Just pip
+#+begin_src sh
+pip install cay
+#+end_src
+
+** Virtualenv Python
+#+begin_src sh
+virtualenv -p 3.10 .venv
+. .venv/bin/activate
+pip install cay
+#+end_src
 
 * Usage
+Type =cay= to invoke cay interpreter.
+
+#+begin_src sh
+$ cay
+cay> 1+2
+ input>     1 + 2 
+ converted> 1 2 + 
+ processing... 
+ processing... 1 
+ processing... 1 2 
+ processing... 1 2 + 
+3
+#+end_src
+
+* Development
+This project uses [[https://github.com/python-poetry/poetry][Poetry]].
+#+begin_src sh
+$ poetry shell
+$ poetry install && cay
+cay> 4^2
+ input>     4 ^ 2 
+ converted> 4 2 ^ 
+ processing... 
+ processing... 4 
+ processing... 4 2 
+ processing... 4 2 ^ 
+16 
+#+end_src
 
 * Information
+** Reference
+This calculator implemented [[https://en.wikipedia.org/wiki/Shunting-yard_algorithm][Shunting-yard algorithm]].
+
 ** Community
 All feedback and suggestions are welcome!
 
