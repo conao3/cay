@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cay"
-version = "0.1.4"
+version = "0.1.5"
 description = "Simple calculator implemented in Python"
 repository = "https://github.com/conao3/cay"
 readme = "README.org"
