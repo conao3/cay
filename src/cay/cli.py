@@ -8,7 +8,7 @@ def cli():
     while True:
         print("cay> ", end="")
         try:
-            print(main.eval(main.read(input())))
+            main.cay_print(main.eval(main.read(input())))
         except Exception as e:
             print(e)
 

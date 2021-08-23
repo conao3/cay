@@ -4,7 +4,7 @@ import enum
 import operator as op
 import re
 from dataclasses import dataclass
-from typing import List, Callable
+from typing import List, Callable, Optional
 
 
 class TokenType(enum.Enum):
@@ -166,8 +166,11 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
     return res
 
 
-def eval(exps: List[Token], ops: List[Op] = global_op) -> Token:
+def eval(exps: List[Token], ops: List[Op] = global_op) -> Optional[Token]:
     """Eval infix notation tokens."""
+
+    if not exps:
+        return None
 
     converted_exps = convert(exps, ops)
 
@@ -198,7 +201,12 @@ def eval(exps: List[Token], ops: List[Op] = global_op) -> Token:
     if len(stack) != 1:
         raise Exception(f'final stack has more than one tokens: {stack}')
 
-    return stack[0].val
+    return stack[0]
+
+
+def cay_print(exp: Optional[Token]) -> None:
+    if exp:
+        print(exp.val)
 
 
 if __name__ == "__main__":
