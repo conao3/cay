@@ -58,16 +58,16 @@ class TestConvert:
             main.Token(val=3, type=main.TokenType.integer),
             main.Token(val=4, type=main.TokenType.integer),
             main.Token(val=2, type=main.TokenType.integer),
-            main.Token(val='*', type=main.TokenType.op),
+            main.Token(val="*", type=main.TokenType.op),
             main.Token(val=1, type=main.TokenType.integer),
             main.Token(val=5, type=main.TokenType.integer),
-            main.Token(val='-', type=main.TokenType.op),
+            main.Token(val="-", type=main.TokenType.op),
             main.Token(val=2, type=main.TokenType.integer),
             main.Token(val=3, type=main.TokenType.integer),
-            main.Token(val='^', type=main.TokenType.op),
-            main.Token(val='^', type=main.TokenType.op),
-            main.Token(val='/', type=main.TokenType.op),
-            main.Token(val='+', type=main.TokenType.op)
+            main.Token(val="^", type=main.TokenType.op),
+            main.Token(val="^", type=main.TokenType.op),
+            main.Token(val="/", type=main.TokenType.op),
+            main.Token(val="+", type=main.TokenType.op),
         ]
 
 

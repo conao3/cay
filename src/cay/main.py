@@ -4,7 +4,7 @@ import enum
 import operator as op
 import re
 from dataclasses import dataclass
-from typing import List, Callable, Optional
+from typing import Callable, List, Optional
 
 
 class TokenType(enum.Enum):
