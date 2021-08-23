@@ -48,6 +48,16 @@ global_op = {
 }
 
 
+def print_tokens(exps: List[Token], prefix: str = None):
+    if prefix:
+        print(prefix, end="")
+
+    for exp in exps:
+        print(exp.val, end=" ")
+
+    print("")
+
+
 def tokenize(arg: str) -> List[str]:
     """
     Tokenize.
@@ -159,15 +169,20 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
 def eval(exps: List[Token], ops: List[Op] = global_op) -> Token:
     """Eval infix notation tokens."""
 
-    exps = convert(exps, ops)
+    converted_exps = convert(exps, ops)
+
+    print_tokens(exps, " input>     ")
+    print_tokens(converted_exps, " converted> ")
 
     stack = []
-    for exp in exps:
-        print(stack)
+    for exp in converted_exps:
+        print_tokens(stack, " processing... ")
         match exp:
             case Token(val=_, type=TokenType.integer) | Token(val=_, type=TokenType.float) as elm:
                 stack.append(elm)
-            case Token(val=o, type=TokenType.op):
+            case Token(val=o, type=TokenType.op) as o_token:
+                print_tokens(stack + [o_token], " processing... ")
+
                 o_op = ops[o]
                 b = stack.pop().val
                 a = stack.pop().val
@@ -183,7 +198,7 @@ def eval(exps: List[Token], ops: List[Op] = global_op) -> Token:
     if len(stack) != 1:
         raise Exception(f'final stack has more than one tokens: {stack}')
 
-    return stack[0]
+    return stack[0].val
 
 
 if __name__ == "__main__":

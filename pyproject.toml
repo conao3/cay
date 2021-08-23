@@ -8,7 +8,7 @@ authors = ["Naoya Yamashita <conao3@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.scripts]
-cay = "cay.cli:main"
+cay = "cay.cli:cli"
 
 [tool.poetry.dependencies]
 python = "^3.10"
