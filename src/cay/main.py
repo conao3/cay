@@ -68,13 +68,7 @@ def tokenize(arg: str) -> List[str]:
     >>> tokenize("(1 + 2) * 3")
     ['(', '1', '+', '2', ')', '*', '3']
     """
-    return (
-        re.sub("([0-9]+)", r" \1 ", arg)
-        .replace("(", " ( ")
-        .replace(")", " ) ")
-        .replace(",", " ")
-        .split()
-    )
+    return re.sub("([0-9]+)", r" \1 ", arg).replace("(", " ( ").replace(")", " ) ").replace(",", " ").split()
 
 
 def parse(exps: List[str]) -> List[Token]:
@@ -124,7 +118,7 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
     stack: List[Token] = []
 
     itr = iter(exps)
-    while (exp := next(itr, None)):
+    while exp := next(itr, None):
         match exp:
             case Token(val=_, type=TokenType.integer) as elm:
                 res.append(elm)
@@ -138,9 +132,9 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
                     o2 = o2_token.val
                     o1_op = ops[o1]
                     o2_op = ops[o2]
-                    while (o1_op.priority < o2_op.priority
-                           or (o1_op.connectivity == ConnectivityType.left
-                               and o1_op.priority <= o2_op.priority)):
+                    while o1_op.priority < o2_op.priority or (
+                        o1_op.connectivity == ConnectivityType.left and o1_op.priority <= o2_op.priority
+                    ):
                         res.append(stack.pop())
                         if stack:
                             o2_token = stack[-1]
@@ -156,7 +150,7 @@ def convert(exps: List[Token], ops: List[Op] = global_op) -> List[Token]:
                 while stack[-1].type != TokenType.lparen:
                     res.append(stack.pop())
 
-                stack.pop()     # discard lparen
+                stack.pop()  # discard lparen
             case _:
                 raise Exception("unknown token")
 
@@ -196,10 +190,10 @@ def eval(exps: List[Token], ops: List[Op] = global_op) -> Optional[Token]:
                     case elm if isinstance(elm, float):
                         stack.append(Token(val=elm, type=TokenType.float))
                     case elm:
-                        raise Exception(f'return value should be int or float: {elm}')
+                        raise Exception(f"return value should be int or float: {elm}")
 
     if len(stack) != 1:
-        raise Exception(f'final stack has more than one tokens: {stack}')
+        raise Exception(f"final stack has more than one tokens: {stack}")
 
     return stack[0]
 
@@ -215,5 +209,6 @@ if __name__ == "__main__":
         exps = read(input())
         print(exps)
         import pprint
+
         pprint.pprint(convert(exps))
         print(eval(exps))
